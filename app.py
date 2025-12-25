@@ -30,16 +30,15 @@ def index():
 
     # Pass the posts to the template
     return render_template('index.html', posts=data)
-    return render_template('index.html', posts=data['posts'])
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     """add post by title, author and content via user-input. key id incremented, if ok"""
     global data
     if request.method == 'POST':
-        title = request.form['title']
-        author = request.form['author']
-        content = request.form['content']
+        title = request.form.get('title')
+        author = request.form.get('author')
+        content = request.form.get('content')
 
         if data:
             new_id = max(post['id'] for post in data) + 1
