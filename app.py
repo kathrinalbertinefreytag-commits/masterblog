@@ -15,6 +15,7 @@ else:
 
 
 def fetch_post_by_id(post_id):
+    """fetch post by id"""
     for post in data:
         if post['id'] == post_id:
             return post
@@ -31,12 +32,9 @@ def index():
     return render_template('index.html', posts=data)
     return render_template('index.html', posts=data['posts'])
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
-
 @app.route('/add', methods=['GET', 'POST'])
 def add():
+    """add post by title, author and content via user-input. key id incremented, if ok"""
     global data
     if request.method == 'POST':
         title = request.form['title']
@@ -44,10 +42,11 @@ def add():
         content = request.form['content']
 
         if data:
-            new_id = max(post['id'] for post in blog_posts) + 1
+            new_id = max(post['id'] for post in data) + 1
         else:
             new_id = 1
 
+        # post content will be appended to file or list
         new_post = {
             'id': new_id,
             'title': title,
@@ -64,6 +63,7 @@ def add():
 
 @app.route('/delete/<int:post_id>')
 def delete(post_id):
+    """delete post"""
     global data
     data = [post for post in data if post['id'] != post_id]
 
